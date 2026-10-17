@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Virtual environment
+.venv/
+venv/
+
+# Tests / tooling
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Captures: never commit real PCAPs
+samples/*
+!samples/.gitkeep
+*.pcap
+*.pcapng
+*.cap
+
+# Generated reports (steps 6+)
+reports/
+report.json
+report.html
+
+# Secrets / local config
+.env
