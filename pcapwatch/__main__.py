@@ -25,4 +25,5 @@ def main():
     print("Top destination ports: ", ports.most_common(3))
 
 
-main()
+if __name__ == "__main__":
+    main()
