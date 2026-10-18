@@ -1,6 +1,7 @@
 import sys
 from collections import Counter
 
+from .detectors.portscan import detect_port_scan
 from .parser import parse_pcap
 
 
@@ -23,6 +24,13 @@ def main():
     ports = Counter(f.dport for f in flows)
     print()
     print("Top destination ports: ", ports.most_common(3))
+    findings = detect_port_scan(flows)
+    print()
+    print("Findings:")
+    if not findings:
+        print("none")
+    for f in findings:
+        print(f" [{f.technique}] {f.summary}")
 
 
 if __name__ == "__main__":
