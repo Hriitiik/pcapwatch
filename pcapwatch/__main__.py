@@ -30,7 +30,7 @@ def main():
     if not findings:
         print("none")
     for f in findings:
-        print(f" [{f.technique}] {f.summary}")
+        print(f" [{f.attack_id}] {f.summary}")
 
 
 if __name__ == "__main__":
