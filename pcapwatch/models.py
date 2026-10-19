@@ -23,3 +23,10 @@ class Finding:
     end: float
     summary: str  # description
     evidence: dict
+
+
+@dataclass
+class DNSQuery:
+    ts: float
+    src: str
+    name: str

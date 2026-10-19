@@ -1,6 +1,6 @@
-from scapy.all import IP, TCP, UDP, rdpcap
+from scapy.all import IP, TCP, UDP, rdpcap, DNS, DNSQR
 
-from .models import Flow
+from .models import Flow, DNSQuery
 
 
 def parse_pcap(path):
@@ -36,3 +36,13 @@ def parse_pcap(path):
         flow.bytes += len(pkt)
 
     return list(flows.values()), len(packets)
+
+
+def parse_dns_queries(path):
+    queries = []
+    for pkt in rdpcap(path):
+        if IP in pkt and DNS in pkt and DNSQR in pkt and pkt[DNS].qr == 0:
+            # qr==0 means packet is query not response
+            name = pkt[DNSQR].qname.decode(errors="ignore").rstrip(".").lower()
+            queries.append(DNSQuery(float(pkt.time), pkt[IP].src, name))
+    return queries

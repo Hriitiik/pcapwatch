@@ -2,7 +2,8 @@ import sys
 from collections import Counter
 
 from .detectors.portscan import detect_port_scan
-from .parser import parse_pcap
+from .parser import parse_pcap, parse_dns_queries
+from .detectors.dns import detect_dns
 
 
 def main():
@@ -24,7 +25,8 @@ def main():
     ports = Counter(f.dport for f in flows)
     print()
     print("Top destination ports: ", ports.most_common(3))
-    findings = detect_port_scan(flows)
+    queries = parse_dns_queries(sys.argv[1])
+    findings = detect_port_scan(flows) + detect_dns(queries)
     print()
     print("Findings:")
     if not findings:
