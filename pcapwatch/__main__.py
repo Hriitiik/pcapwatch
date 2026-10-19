@@ -1,9 +1,9 @@
 import sys
 from collections import Counter
 
-from .detectors.portscan import detect_port_scan
-from .parser import parse_pcap, parse_dns_queries
 from .detectors.dns import detect_dns
+from .detectors.portscan import detect_port_scan
+from .parser import parse_dns_queries, parse_pcap
 
 
 def main():

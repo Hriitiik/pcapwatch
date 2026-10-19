@@ -1,7 +1,7 @@
 import random
 import string
 
-from scapy.all import Ether, IP, UDP, DNS, DNSQR, wrpcap
+from scapy.all import DNS, DNSQR, IP, UDP, Ether, wrpcap
 
 rng = random.Random(7)
 chars = string.ascii_lowercase + string.digits

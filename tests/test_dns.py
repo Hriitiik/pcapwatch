@@ -1,8 +1,8 @@
 import random
 import string
 
-from pcapwatch.models import DNSQuery
 from pcapwatch.detectors.dns import detect_dns, entropy, split_name
+from pcapwatch.models import DNSQuery
 
 
 def rand_label(n, rng):

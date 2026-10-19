@@ -1,6 +1,6 @@
-from scapy.all import IP, TCP, UDP, rdpcap, DNS, DNSQR
+from scapy.all import DNS, DNSQR, IP, TCP, UDP, rdpcap
 
-from .models import Flow, DNSQuery
+from .models import DNSQuery, Flow
 
 
 def parse_pcap(path):

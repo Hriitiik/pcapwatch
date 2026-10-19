@@ -1,8 +1,7 @@
-import tldextract
-from email.policy import default
 import math
 from collections import Counter, defaultdict
 
+import tldextract
 
 from ..models import Finding
 
