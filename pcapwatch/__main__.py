@@ -1,6 +1,7 @@
 import sys
 from collections import Counter
 
+from .detectors.beaconing import detect_beaconing
 from .detectors.dns import detect_dns
 from .detectors.portscan import detect_port_scan
 from .parser import parse_dns_queries, parse_pcap
@@ -26,7 +27,7 @@ def main():
     print()
     print("Top destination ports: ", ports.most_common(3))
     queries = parse_dns_queries(sys.argv[1])
-    findings = detect_port_scan(flows) + detect_dns(queries)
+    findings = detect_port_scan(flows) + detect_dns(queries) + detect_beaconing(flows)
     print()
     print("Findings:")
     if not findings:
