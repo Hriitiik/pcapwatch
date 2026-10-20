@@ -4,7 +4,8 @@ from collections import Counter
 from .detectors.beaconing import detect_beaconing
 from .detectors.dns import detect_dns
 from .detectors.portscan import detect_port_scan
-from .parser import parse_dns_queries, parse_pcap
+from .detectors.credentials import detect_cleartext_credentials
+from .parser import parse_dns_queries, parse_pcap, parse_cleartext_auth
 
 
 def main():
@@ -27,7 +28,13 @@ def main():
     print()
     print("Top destination ports: ", ports.most_common(3))
     queries = parse_dns_queries(sys.argv[1])
-    findings = detect_port_scan(flows) + detect_dns(queries) + detect_beaconing(flows)
+    auth_events = parse_cleartext_auth(sys.argv[1])
+    findings = (
+        detect_port_scan(flows)
+        + detect_dns(queries)
+        + detect_beaconing(flows)
+        + detect_cleartext_credentials(auth_events)
+    )
     print()
     print("Findings:")
     if not findings:

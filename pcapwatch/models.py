@@ -30,3 +30,14 @@ class DNSQuery:
     ts: float
     src: str
     name: str
+
+
+@dataclass
+class AuthEvent:
+    ts: float
+    src: str
+    dst: str
+    dport: str
+    protocol: str  # http_basic or ftp
+    username: str
+    password_length: int

@@ -1,6 +1,11 @@
-from scapy.all import DNS, DNSQR, IP, TCP, UDP, rdpcap
+from scapy.all import DNS, DNSQR, IP, TCP, UDP, rdpcap, Raw
 
-from .models import DNSQuery, Flow
+from .models import DNSQuery, Flow, AuthEvent
+
+import base64
+import re
+
+BASIC_RE = re.compile(rb"Authorization:\s*Basic\s+([A-Za-z0-9+/=])", re.I)
 
 
 def parse_pcap(path):
@@ -46,3 +51,44 @@ def parse_dns_queries(path):
             name = pkt[DNSQR].qname.decode(errors="ignore").rstrip(".").lower()
             queries.append(DNSQuery(float(pkt.time), pkt[IP].src, name))
     return queries
+
+
+def parse_cleartext_auth(path):
+    events = []
+    ftp_users = {}
+
+    for pkt in rdpcap(path):
+        if not (IP in pkt and TCP in pkt and Raw in pkt):
+            continue
+        payload = bytes(pkt[Raw].load)
+        ts, src, dst = float(pkt.time), pkt[IP].src, pkt[IP].dst
+        dport = pkt[TCP].dport
+
+        m = BASIC_RE.search(payload)
+        if m:
+            try:
+                decoded = base64.b64decode(m.group(1)).decode(errors="ignore")
+            except ValueError:
+                continue
+            user, _, password = decoded.partition(":")
+            events.append(
+                AuthEvent(ts, src, dst, dport, "http_basic", user, len(password))
+            )
+        if dport == 21:
+            for line in payload.split(b"\r\n"):
+                if line.upper().startswith(b"USER "):
+                    ftp_users[(src, dst)] = line[5:].decode(errors="ignore").strip()
+                elif line.upper().startswith(b"PASS "):
+                    events.append(
+                        AuthEvent(
+                            ts,
+                            src,
+                            dst,
+                            dport,
+                            "ftp",
+                            ftp_users.get((src, dst), "?"),
+                            len(line) - 5,
+                        )
+                    )
+
+    return events

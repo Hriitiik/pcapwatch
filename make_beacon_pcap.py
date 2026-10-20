@@ -28,5 +28,5 @@ for i, (ts, dst, dport) in enumerate(sorted(events)):
     p.time = ts
     pkts.append(p)
 
-wrpcap("samples/beacon_synthetic.pcap", pkts)
-print("wrote samples/beacon_synthetic.pcap")
+wrpcap("samples/beacon_testing.pcap", pkts)
+print("wrote samples/beacon_testing.pcap")
