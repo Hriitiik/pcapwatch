@@ -41,3 +41,16 @@ class AuthEvent:
     protocol: str  # http_basic or ftp
     username: str
     password_length: int
+
+
+@dataclass
+class HTTPFile:
+    ts: float
+    client: str
+    server: str
+    port: int
+    url: str  # host + path e.g. evil.com/updates.exe
+    content_type: str
+    size: int
+    sha256: str
+    head: bytes  # first 4 bytes of the body used for magic-byte checks

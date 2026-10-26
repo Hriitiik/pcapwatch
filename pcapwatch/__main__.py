@@ -2,10 +2,10 @@ import sys
 from collections import Counter
 
 from .detectors.beaconing import detect_beaconing
+from .detectors.credentials import detect_cleartext_credentials
 from .detectors.dns import detect_dns
 from .detectors.portscan import detect_port_scan
-from .detectors.credentials import detect_cleartext_credentials
-from .parser import parse_dns_queries, parse_pcap, parse_cleartext_auth
+from .parser import parse_cleartext_auth, parse_dns_queries, parse_pcap
 
 
 def main():
