@@ -162,7 +162,7 @@ def _split_responses(data):
         else:
             body, end = data[start:], len(data)
 
-        responses.append(headers, body)
+        responses.append((headers, body))
         pos = end
     return responses
 

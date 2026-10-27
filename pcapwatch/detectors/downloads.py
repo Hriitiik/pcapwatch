@@ -30,15 +30,20 @@ def detect_downloads(files):
                 rule="suspicious_download",
                 attack_id="T1105",
                 src=f.client,
+                start=f.ts,
                 end=f.ts,
                 summary=f"{f.client} downloaded {file_type} from {f.url} ({f.size} bytes, sha256 {f.sha256[:16]}...){note}",
                 evidence={
                     "url": f.url,
                     "server": f.server,
                     "port": f.port,
+                    "file_type": file_type,
+                    "size": f.size,
                     "sha256": f.sha256,
                     "content_type": f.content_type,
                     "extension_mismatch": mismatch,
                 },
             )
         )
+
+    return findings
