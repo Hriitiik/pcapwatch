@@ -1,54 +1,53 @@
+import argparse
 import sys
-from collections import Counter
+from datetime import datetime, timezone
+from pathlib import Path
 
-from .detectors.beaconing import detect_beaconing
-from .detectors.credentials import detect_cleartext_credentials
-from .detectors.dns import detect_dns
-from .detectors.downloads import detect_downloads
-from .detectors.portscan import detect_port_scan
-from .parser import (
-    parse_cleartext_auth,
-    parse_dns_queries,
-    parse_http_files,
-    parse_pcap,
-)
+from .engine import analyze
+from .report import to_html, to_json
+
+
+def stamp(ts):
+    return datetime.fromtimestamp(ts, timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+
+
+def write(path, text):
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(text, encoding="utf-8")
+    print(f"wrote {p}")
 
 
 def main():
-    if len(sys.argv) != 2:
-        print("Usage: python -m pcapwatch <file.pcap>")
+    ap = argparse.ArgumentParser(
+        prog="pcapwatch", description="Hunt for attacker behavior in PCAP files"
+    )
+    ap.add_argument("pcap", help="path to a .pcap file")
+    ap.add_argument("--json", metavar="FILE", help="write a JSON report")
+    ap.add_argument("--html", metavar="FILE", help="write an HTML report")
+    args = ap.parse_args()
+
+    try:
+        result = analyze(args.pcap)
+    except FileNotFoundError:
+        print(f"error: {args.pcap} not found", file=sys.stderr)
         sys.exit(1)
 
-    flows, total = parse_pcap(sys.argv[1])
-
-    print(f"Packets: {total}")
-    print(f"Flows: {len(flows)}")
-    print()
-    print("Flows (initiator -> responder):")
-    for f in flows:
-        print(
-            f" {f.protocol} {f.src}:{f.sport} -> {f.dst}:{f.dport} {f.packets} pkts, {f.bytes} bytes"
-        )
-
-    ports = Counter(f.dport for f in flows)
-    print()
-    print("Top destination ports: ", ports.most_common(3))
-    queries = parse_dns_queries(sys.argv[1])
-    auth_events = parse_cleartext_auth(sys.argv[1])
-    http_files = parse_http_files(sys.argv[1])
-    findings = (
-        detect_port_scan(flows)
-        + detect_dns(queries)
-        + detect_beaconing(flows)
-        + detect_cleartext_credentials(auth_events)
-        + detect_downloads(http_files)
+    print(f"pcapwatch: {args.pcap}")
+    print(
+        f"Packets: {result.packets}   Flows: {len(result.flows)}   "
+        f"Findings: {len(result.findings)}"
     )
     print()
-    print("Findings:")
-    if not findings:
-        print("none")
-    for f in findings:
-        print(f" [{f.attack_id}] {f.summary}")
+    if not result.findings:
+        print("  no findings")
+    for f in result.findings:
+        print(f"  [{f.attack_id}] {stamp(f.start)}  {f.summary}")
+
+    if args.json:
+        write(args.json, to_json(result))
+    if args.html:
+        write(args.html, to_html(result))
 
 
 if __name__ == "__main__":
