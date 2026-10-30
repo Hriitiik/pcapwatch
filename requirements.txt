@@ -1,0 +1,2 @@
+scapy==2.8.0
+tldextract==5.4.0

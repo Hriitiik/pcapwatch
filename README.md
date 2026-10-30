@@ -1,5 +1,7 @@
 # pcapwatch
 
+![CI](https://github.com/Hriitiik/pcapwatch/actions/workflows/ci.yml/badge.svg)
+
 Network traffic analyzer that reads `.pcap` files and hunts for attacker
 behavior on the wire. Counterpart to [logwatch](https://github.com/Hriitiik/logwatch),
 which does the same for logs. Findings are tagged with MITRE ATT&CK IDs.
@@ -43,6 +45,15 @@ Packets: 3190   Flows: 35   Findings: 1
 
 The HTML report is a timeline table with ATT&CK links and collapsible
 evidence per finding.
+
+## Docker
+
+```bash
+docker build -t pcapwatch .
+docker run --rm pcapwatch /app/examples/demo.pcap
+docker run --rm --user "$(id -u):$(id -g)" -v "$PWD/samples:/data" \
+  pcapwatch /data/capture.pcap --html /data/report.html
+```
 
 ## How it works
 

@@ -1,0 +1,59 @@
+<!doctype html><html><head><meta charset="utf-8"><title>pcapwatch report</title><style>
+body{font-family:systen-ui,sans-serif;margin:2rem;color:#1a1a1a}
+h1{font-size:1.4rem}
+.meta{color:#555;margin-bottom:1.5rem}
+table{border-collapse:collapse;border-width:100%}
+th,td{border:1px solid #ddd;padding:.5rem;text-align:left;vertical-align:top;font-size:.9rem}
+th{background:#f4f4f4}
+pre{margin:.5rem 0 0;white-space:pre-wrap;word-break:break-all;font-size:.8rem}
+summary{cursor:pointer;color:#0a6}
+</style></head><body><h1>pcapwatch report</h1><div class="meta">examples/demo.pcap &middot; 138 packets &middot; 130 flows &middot; 6 findings &middot; generated 2026-10-30T12:04:45Z</div><table><tr><th>Time (UTC)</th><th>ATT&amp;CK</th><th>Rule</th><th>Source</th><th>Details</th></tr><tr><td>2023-11-14T22:13:20Z</td><td><a href="https://attack.mitre.org/techniques/T1071/004/">T1071.004</a></td><td>dns_tunneling</td><td>10.0.0.5</td><td>10.0.0.5 sent 40 unique subdomains to evil.com (avg_length 40)<details><summary>evidence</summary><pre>{
+  &quot;parent&quot;: &quot;evil.com&quot;,
+  &quot;unique_subdomains&quot;: 40,
+  &quot;avg_length&quot;: 40.0,
+  &quot;examples&quot;: [
+    &quot;0ec498uk1geqfng052loi03p8hssrrxqqm2plppj&quot;,
+    &quot;21i9mpflv9fupxqmb0y07nyrvd5rxi67nfrpyz21&quot;,
+    &quot;29be2u66mr26846p7q9m2i0hz2uep1enthjxjqi3&quot;
+  ]
+}</pre></details></td></tr><tr><td>2023-11-14T22:13:20Z</td><td><a href="https://attack.mitre.org/techniques/T1105/">T1105</a></td><td>suspicious_download</td><td>10.0.0.5</td><td>10.0.0.5 downloaded PE executable from update.evil.test/update.exe (2502 bytes, sha256 c0621868f9c5ad7b...)<details><summary>evidence</summary><pre>{
+  &quot;url&quot;: &quot;update.evil.test/update.exe&quot;,
+  &quot;server&quot;: &quot;203.0.113.80&quot;,
+  &quot;port&quot;: 80,
+  &quot;file_type&quot;: &quot;PE executable&quot;,
+  &quot;size&quot;: 2502,
+  &quot;sha256&quot;: &quot;c0621868f9c5ad7bac2b3fc3448b6152a26d65b6fda2cc31d9e142dbc84d28f5&quot;,
+  &quot;content_type&quot;: &quot;application/octet-stream&quot;,
+  &quot;extension_mismatch&quot;: false
+}</pre></details></td></tr><tr><td>2023-11-14T22:13:20Z</td><td><a href="https://attack.mitre.org/techniques/T1105/">T1105</a></td><td>suspicious_download</td><td>10.0.0.5</td><td>10.0.0.5 downloaded PE executable from cdn.evil.test/logo.jpg (1502 bytes, sha256 4c5728f233ebbf83...) (disguised extension)<details><summary>evidence</summary><pre>{
+  &quot;url&quot;: &quot;cdn.evil.test/logo.jpg&quot;,
+  &quot;server&quot;: &quot;203.0.113.80&quot;,
+  &quot;port&quot;: 80,
+  &quot;file_type&quot;: &quot;PE executable&quot;,
+  &quot;size&quot;: 1502,
+  &quot;sha256&quot;: &quot;4c5728f233ebbf83ee5cf20412f36d815ae297765d93f5d200949f2ed4d2ef78&quot;,
+  &quot;content_type&quot;: &quot;image/jpeg&quot;,
+  &quot;extension_mismatch&quot;: true
+}</pre></details></td></tr><tr><td>2023-11-14T22:13:23Z</td><td><a href="https://attack.mitre.org/techniques/T1040/">T1040</a></td><td>cleartext_credentials</td><td>10.0.0.5</td><td>10.0.0.5 sent 1 cleartext ftp login(s) to 10.0.0.9:21 as alice<details><summary>evidence</summary><pre>{
+  &quot;dst&quot;: &quot;10.0.0.9&quot;,
+  &quot;dport&quot;: 21,
+  &quot;protocol&quot;: &quot;ftp&quot;,
+  &quot;usernames&quot;: [
+    &quot;alice&quot;
+  ],
+  &quot;attempts&quot;: 1
+}</pre></details></td></tr><tr><td>2023-11-14T22:13:40Z</td><td><a href="https://attack.mitre.org/techniques/T1071/004/">T1071.004</a></td><td>dga</td><td>10.0.0.5</td><td>10.0.0.5 queried 14 high-entropy domains (possible DGA)<details><summary>evidence</summary><pre>{
+  &quot;domain_count&quot;: 14,
+  &quot;examples&quot;: [
+    &quot;1fxjtydfui7waane.com&quot;,
+    &quot;7ch0z2eayj409gf4.com&quot;,
+    &quot;9dssw5zv6r6wn5hv.com&quot;
+  ]
+}</pre></details></td></tr><tr><td>2023-11-14T22:14:19Z</td><td><a href="https://attack.mitre.org/techniques/T1071/">T1071</a></td><td>beaconing</td><td>10.0.0.5</td><td>10.0.0.5 contacted 203.0.113.50:443 30 times every ~60s (jitter 3%)<details><summary>evidence</summary><pre>{
+  &quot;dst&quot;: &quot;203.0.113.50&quot;,
+  &quot;dport&quot;: 443,
+  &quot;protocol&quot;: &quot;TCP&quot;,
+  &quot;connections&quot;: 30,
+  &quot;avg_interval&quot;: 59.8,
+  &quot;jitter&quot;: 0.03
+}</pre></details></td></tr></table></body></html>

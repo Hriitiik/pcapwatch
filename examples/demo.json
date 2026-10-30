@@ -1,0 +1,123 @@
+{
+  "pcap": "examples/demo.pcap",
+  "generated": "2026-10-30T12:04:45Z",
+  "packets": 138,
+  "flows": 130,
+  "findings": [
+    {
+      "rule": "dns_tunneling",
+      "attack_id": "T1071.004",
+      "src": "10.0.0.5",
+      "start": 1700000000.0,
+      "end": 1700000019.5,
+      "summary": "10.0.0.5 sent 40 unique subdomains to evil.com (avg_length 40)",
+      "evidence": {
+        "parent": "evil.com",
+        "unique_subdomains": 40,
+        "avg_length": 40.0,
+        "examples": [
+          "0ec498uk1geqfng052loi03p8hssrrxqqm2plppj",
+          "21i9mpflv9fupxqmb0y07nyrvd5rxi67nfrpyz21",
+          "29be2u66mr26846p7q9m2i0hz2uep1enthjxjqi3"
+        ]
+      },
+      "start_iso": "2023-11-14T22:13:20Z",
+      "end_iso": "2023-11-14T22:13:39Z"
+    },
+    {
+      "rule": "suspicious_download",
+      "attack_id": "T1105",
+      "src": "10.0.0.5",
+      "start": 1700000000.02,
+      "end": 1700000000.02,
+      "summary": "10.0.0.5 downloaded PE executable from update.evil.test/update.exe (2502 bytes, sha256 c0621868f9c5ad7b...)",
+      "evidence": {
+        "url": "update.evil.test/update.exe",
+        "server": "203.0.113.80",
+        "port": 80,
+        "file_type": "PE executable",
+        "size": 2502,
+        "sha256": "c0621868f9c5ad7bac2b3fc3448b6152a26d65b6fda2cc31d9e142dbc84d28f5",
+        "content_type": "application/octet-stream",
+        "extension_mismatch": false
+      },
+      "start_iso": "2023-11-14T22:13:20Z",
+      "end_iso": "2023-11-14T22:13:20Z"
+    },
+    {
+      "rule": "suspicious_download",
+      "attack_id": "T1105",
+      "src": "10.0.0.5",
+      "start": 1700000000.06,
+      "end": 1700000000.06,
+      "summary": "10.0.0.5 downloaded PE executable from cdn.evil.test/logo.jpg (1502 bytes, sha256 4c5728f233ebbf83...) (disguised extension)",
+      "evidence": {
+        "url": "cdn.evil.test/logo.jpg",
+        "server": "203.0.113.80",
+        "port": 80,
+        "file_type": "PE executable",
+        "size": 1502,
+        "sha256": "4c5728f233ebbf83ee5cf20412f36d815ae297765d93f5d200949f2ed4d2ef78",
+        "content_type": "image/jpeg",
+        "extension_mismatch": true
+      },
+      "start_iso": "2023-11-14T22:13:20Z",
+      "end_iso": "2023-11-14T22:13:20Z"
+    },
+    {
+      "rule": "cleartext_credentials",
+      "attack_id": "T1040",
+      "src": "10.0.0.5",
+      "start": 1700000003.0,
+      "end": 1700000003.0,
+      "summary": "10.0.0.5 sent 1 cleartext ftp login(s) to 10.0.0.9:21 as alice",
+      "evidence": {
+        "dst": "10.0.0.9",
+        "dport": 21,
+        "protocol": "ftp",
+        "usernames": [
+          "alice"
+        ],
+        "attempts": 1
+      },
+      "start_iso": "2023-11-14T22:13:23Z",
+      "end_iso": "2023-11-14T22:13:23Z"
+    },
+    {
+      "rule": "dga",
+      "attack_id": "T1071.004",
+      "src": "10.0.0.5",
+      "start": 1700000020.0,
+      "end": 1700000027.0,
+      "summary": "10.0.0.5 queried 14 high-entropy domains (possible DGA)",
+      "evidence": {
+        "domain_count": 14,
+        "examples": [
+          "1fxjtydfui7waane.com",
+          "7ch0z2eayj409gf4.com",
+          "9dssw5zv6r6wn5hv.com"
+        ]
+      },
+      "start_iso": "2023-11-14T22:13:40Z",
+      "end_iso": "2023-11-14T22:13:47Z"
+    },
+    {
+      "rule": "beaconing",
+      "attack_id": "T1071",
+      "src": "10.0.0.5",
+      "start": 1700000059.714277,
+      "end": 1700001793.014897,
+      "summary": "10.0.0.5 contacted 203.0.113.50:443 30 times every ~60s (jitter 3%)",
+      "evidence": {
+        "dst": "203.0.113.50",
+        "dport": 443,
+        "protocol": "TCP",
+        "connections": 30,
+        "avg_interval": 59.8,
+        "jitter": 0.03
+      },
+      "start_iso": "2023-11-14T22:14:19Z",
+      "end_iso": "2023-11-14T22:43:13Z"
+    }
+  ]
+}

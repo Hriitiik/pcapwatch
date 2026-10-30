@@ -35,3 +35,5 @@ report.html
 
 # Secrets / local config
 .env
+
+!examples/demo.pcap
